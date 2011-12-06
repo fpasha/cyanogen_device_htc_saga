@@ -63,7 +63,9 @@ PRODUCT_COPY_FILES += \
     device/htc/saga/keychars/qwerty.kcm.bin:system/usr/keychars/qwerty.kcm.bin \
     device/htc/saga/keychars/qwerty2.kcm.bin:system/usr/keychars/qwerty2.kcm.bin \
     device/htc/saga/keychars/saga-keypad.kcm.bin:system/usr/keychars/saga-keypad.kcm.bin \
-    device/htc/saga/keychars/saga-keypad-wwe.kcm.bin:system/usr/keychars/saga-keypad-wwe.kcm.bin
+    device/htc/saga/keychars/saga-keypad-wwe.kcm.bin:system/usr/keychars/saga-keypad-wwe.kcm.bin \
+	device/htc/saga/atmel-touchscreen.idc:system/usr/idc/atmel-touchscreen.idc \
+	device/htc/saga/synaptics-rmi-touchscreen.idc:system/usr/idc/synaptics-rmi-touchscreen.idc
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
