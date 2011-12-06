@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
+
 
 # The gps config appropriate for this device
 
@@ -26,9 +26,20 @@ PRODUCT_COPY_FILES += \
     device/htc/saga/init.saga.rc:root/init.saga.rc \
     device/htc/saga/ueventd.saga.rc:root/ueventd.saga.rc
 
+# These are the hardware-specific features
 PRODUCT_COPY_FILES += \
-    frameworks/base/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
-    frameworks/base/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml
+	frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
+	frameworks/base/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
+	frameworks/base/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
+	frameworks/base/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
+	frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+	frameworks/base/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
+	frameworks/base/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
+	frameworks/base/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
+	frameworks/base/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
+	frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
+	frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
+	frameworks/base/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml
 
 ## (2) Also get non-open-source GSM-specific aspects if available
 $(call inherit-product-if-exists, vendor/htc/saga/saga-vendor.mk)
@@ -47,25 +58,28 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vold.umsdirtyratio=20
 
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.sf.lcd_density=240
+
+$(call inherit-product, frameworks/base/build/phone-hdpi-512-dalvik-heap.mk)
+
 DEVICE_PACKAGE_OVERLAYS += device/htc/saga/overlay
 
 # gsm config xml file
 PRODUCT_COPY_FILES += \
     device/htc/saga/voicemail-conf.xml:system/etc/voicemail-conf.xml
 
-PRODUCT_PACKAGES += \
-    lights.saga \
-    sensors.saga \
-    gps.saga
-
 # Keychars
 PRODUCT_COPY_FILES += \
     device/htc/saga/keychars/qwerty.kcm.bin:system/usr/keychars/qwerty.kcm.bin \
     device/htc/saga/keychars/qwerty2.kcm.bin:system/usr/keychars/qwerty2.kcm.bin \
     device/htc/saga/keychars/saga-keypad.kcm.bin:system/usr/keychars/saga-keypad.kcm.bin \
-    device/htc/saga/keychars/saga-keypad-wwe.kcm.bin:system/usr/keychars/saga-keypad-wwe.kcm.bin \
-	device/htc/saga/atmel-touchscreen.idc:system/usr/idc/atmel-touchscreen.idc \
-	device/htc/saga/synaptics-rmi-touchscreen.idc:system/usr/idc/synaptics-rmi-touchscreen.idc
+    device/htc/saga/keychars/saga-keypad-wwe.kcm.bin:system/usr/keychars/saga-keypad-wwe.kcm.bin 
+
+# Input device calibration files
+PRODUCT_COPY_FILES += \
+    device/htc/saga/atmel-touchscreen.idc:system/usr/idc/atmel-touchscreen.idc \
+    device/htc/saga/synaptics-rmi-touchscreen.idc:system/usr/idc/synaptics-rmi-touchscreen.idc
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
@@ -130,10 +144,13 @@ PRODUCT_COPY_FILES += \
     device/htc/saga/prebuilt/bcm4329.ko:system/lib/modules/bcm4329.ko
 
 
+PRODUCT_PACKAGES := \
+    lights.saga \
+    sensors.saga \
+    gps.saga
+
 # stuff common to all HTC phones
 $(call inherit-product, device/htc/common/common.mk)
-
-$(call inherit-product, build/target/product/full_base.mk)
 
 # common msm7x30 configs
 $(call inherit-product, device/htc/msm7x30-common/msm7x30.mk)
@@ -145,6 +162,9 @@ $(call inherit-product, device/htc/saga/media_a1026.mk)
 $(call inherit-product, device/htc/saga/media_htcaudio.mk)
 
 $(call inherit-product-if-exists, vendor/htc/saga/saga-vendor.mk)
+
+$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
+$(call inherit-product, build/target/product/full_base.mk)
 
 PRODUCT_NAME := htc_saga
 PRODUCT_DEVICE := saga
