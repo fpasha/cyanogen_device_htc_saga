@@ -19,6 +19,7 @@ TARGET_SPECIFIC_HEADER_PATH := device/htc/saga/include
 
 subdir_makefiles := \
 	$(LOCAL_PATH)/liblights/Android.mk \
+	$(LOCAL_PATH)/librpc/Android.mk \
 	$(LOCAL_PATH)/libsensors/Android.mk
 
 
