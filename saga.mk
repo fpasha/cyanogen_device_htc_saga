@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-
+TARGET_SPECIFIC_HEADER_PATH := device/htc/saga/include
 
 # The gps config appropriate for this device
 
