@@ -52,21 +52,10 @@
 
 /* device id */
 enum kgsl_deviceid {
-#if defined(CONFIG_GPU_MSM_KGSL_ADRENO220)
-	KGSL_DEVICE_YAMATO	= 0x00000000,
-	KGSL_DEVICE_2D0		= 0x00000001,
-	KGSL_DEVICE_2D1		= 0x00000002,
-	KGSL_DEVICE_MAX		= 0x00000003
-#elif defined(CONFIG_GPU_MSM_KGSL_ADRENO205)
 	KGSL_DEVICE_YAMATO	= 0x00000000,
 	KGSL_DEVICE_G12		= 0x00000001,
 	KGSL_DEVICE_MAX		= 0x00000002
-#else
-	KGSL_DEVICE_ANY		= 0x00000000,
-	KGSL_DEVICE_YAMATO	= 0x00000001,
-	KGSL_DEVICE_G12		= 0x00000002,
-	KGSL_DEVICE_MAX		= 0x00000002
-#endif
+
 };
 
 enum kgsl_user_mem_type {
@@ -133,7 +122,7 @@ struct kgsl_shadowprop {
 	unsigned int flags; /* contains KGSL_FLAGS_ values */
 };
 
-#if defined(CONFIG_ARCH_MSM7X30) || defined(CONFIG_ARCH_MSM8X60)
+
 #include <mach/msm_bus.h>
 struct kgsl_platform_data {
 	unsigned int high_axi_2d;
@@ -158,12 +147,9 @@ struct kgsl_platform_data {
 	struct msm_bus_scale_pdata *grp2d0_bus_scale_table;
 	struct msm_bus_scale_pdata *grp2d1_bus_scale_table;
 	unsigned int nap_allowed;
-#if  defined(CONFIG_GPU_MSM_KGSL_ADRENO220)
-	unsigned int pt_va_size;
-	unsigned int pt_max_count;
-#endif
+
 };
-#endif
+
 
 /* structure holds list of ibs */
 struct kgsl_ibdesc {
@@ -230,15 +216,7 @@ struct kgsl_device_waittimestamp {
  * other ioctls to determine when the commands have been executed by
  * the GPU.
  */
-#if  defined(CONFIG_GPU_MSM_KGSL_ADRENO220)
-struct kgsl_ringbuffer_issueibcmds {
-	unsigned int drawctxt_id;
-	unsigned int ibdesc_addr;
-	unsigned int numibs;
-	unsigned int timestamp; /*output param */
-	unsigned int flags;
-};
-#else
+
 struct kgsl_ringbuffer_issueibcmds {
 	unsigned int drawctxt_id;
 	unsigned int ibaddr;
@@ -246,7 +224,7 @@ struct kgsl_ringbuffer_issueibcmds {
 	unsigned int timestamp; /*output param */
 	unsigned int flags;
 };
-#endif
+
 
 #define IOCTL_KGSL_RINGBUFFER_ISSUEIBCMDS \
 	_IOWR(KGSL_IOC_TYPE, 0x10, struct kgsl_ringbuffer_issueibcmds)
@@ -363,13 +341,8 @@ struct kgsl_bind_gmem_shadow {
 struct kgsl_sharedmem_from_vmalloc {
 	unsigned int gpuaddr;	/*output param */
 	unsigned int hostptr;
-#if defined(CONFIG_GPU_MSM_KGSL_ADRENO205) || defined(CONFIG_GPU_MSM_KGSL_ADRENO220)
 	unsigned int flags;
-#else
-	/* If set from user space then will attempt to
-	 * allocate even if low watermark is crossed */
-	int force_no_low_watermark;
-#endif
+
 };
 
 #define IOCTL_KGSL_SHAREDMEM_FROM_VMALLOC \
@@ -405,12 +378,5 @@ struct kgsl_cmdwindow_write {
 #define IOCTL_KGSL_CMDWINDOW_WRITE \
 	_IOW(KGSL_IOC_TYPE, 0x2e, struct kgsl_cmdwindow_write)
 
-#ifdef __KERNEL__
-#ifdef CONFIG_MSM_KGSL_DRM
-int kgsl_gem_obj_addr(int drm_fd, int handle, unsigned long *start,
-			unsigned long *len);
-#else
-#define kgsl_gem_obj_addr(...) 0
-#endif
-#endif
+
 #endif /* _MSM_KGSL_H */

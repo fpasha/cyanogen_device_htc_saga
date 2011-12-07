@@ -23,32 +23,102 @@
 # WARNING: This line must come *before* including the proprietary
 # variant, so that it gets overwritten by the parent (which goes
 # against the traditional rules of inheritance).
-USE_CAMERA_STUB := false
 
-# inherit from common msm7x30
--include device/htc/msm7x30-common/BoardConfigCommon.mk
+TARGET_SPECIFIC_HEADER_PATH := device/htc/saga/include
 
-# inherit from the proprietary version
--include vendor/htc/saga/BoardConfigVendor.mk
+TARGET_RELEASETOOLS_EXTENSIONS := device/htc/saga
 
-TARGET_BOOTLOADER_BOARD_NAME := saga
+
+##########################################################################################################
+
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 #TARGET_NO_RECOVERY := true
+TARGET_USERIMAGES_USE_EXT4 := true
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 585101312
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 1232072704
+BOARD_BOOTIMAGE_PARTITION_SIZE := 4194304
+BOARD_FLASH_BLOCK_SIZE := 262144
+BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_HAS_NO_SELECT_BUTTON := true
+BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/mmcblk1p1
+BOARD_SDCARD_DEVICE_SECONDARY := /dev/block/mmcblk1
+BOARD_SDEXT_DEVICE := /dev/block/mmcblk1p2
+BOARD_USES_MMCUTILS := true
+BOARD_HAS_NO_MISC_PARTITION := true
 
+BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
+
+
+TARGET_BOARD_PLATFORM := msm7x30
+TARGET_BOOTLOADER_BOARD_NAME := saga
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno200
+BOARD_EGL_CFG := device/htc/saga/egl.cfg
+
+
+TARGET_CPU_ABI := armeabi-v7a
+TARGET_CPU_ABI2 := armeabi
+TARGET_ARCH_VARIANT := armv7-a-neon
+ARCH_ARM_HAVE_TLS_REGISTER := true
+
+TARGET_PREBUILT_KERNEL := device/htc/saga/prebuilt/kernel
 BOARD_KERNEL_CMDLINE := no_console_suspend=1
 BOARD_KERNEL_RECOVERY_CMDLINE := $(BOARD_KERNEL_CMDLINE) msmsdcc_power_gpio=88
 BOARD_KERNEL_BASE := 0x04400000
 BOARD_KERNEL_PAGE_SIZE := 4096
 
+
+# Wifi related defines
+BOARD_WPA_SUPPLICANT_DRIVER := WEXT
+WPA_SUPPLICANT_VERSION      := VER_0_6_X
+BOARD_WLAN_DEVICE           := bcm4329
+WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/bcm4329.ko"
+WIFI_DRIVER_FW_STA_PATH     := "/vendor/firmware/fw_bcm4329.bin"
+WIFI_DRIVER_FW_AP_PATH      := "/vendor/firmware/fw_bcm4329_apsta.bin"
+WIFI_DRIVER_MODULE_ARG      := "firmware_path=/vendor/firmware/fw_bcm4329.bin nvram_path=/proc/calibration"
+WIFI_DRIVER_MODULE_NAME     := "bcm4329"
+
+
+BOARD_USES_QCOM_HARDWARE := true
+
+BOARD_USES_GENERIC_AUDIO := false
+BOARD_USES_QCOM_VOIPMUTE := true
+BOARD_USES_QCOM_RESETALL := true
+
+
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_BCM := true
+
+BOARD_USES_QCOM_GPS := true
+#BOARD_VENDOR_QCOM_AMSS_VERSION := 1200
+#BOARD_VENDOR_QCOM_AMSS_VERSION := 1240
+#BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION := 1240
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := saga
+BOARD_VENDOR_QCOM_AMSS_VERSION := 50000
 BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION := 50000
 
+USE_CAMERA_STUB := false
+BOARD_CAMERA_USE_GETBUFFERINFO := true
+
+BOARD_USES_QCOM_LIBS := true
+BOARD_USES_QCOM_LIBRPC := true
+BOARD_USE_QCOM_PMEM := true
+
+
+
+BOARD_OVERLAY_FORMAT_YCbCr_420_SP := true
 BOARD_HAVE_HTC_FFC := true
 BOARD_USE_REVERSE_FFC := true
 # Workaround for Saga's broken overlay scaling
 BOARD_OVERLAY_MINIFICATION_LIMIT := 2
 
+
+BOARD_HAVE_FM_RADIO := true
+BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
+
+
+
+##########################################################################################################
 # cat /proc/emmc
 #dev:        size     erasesize name
 #mmcblk0p17: 00040000 00000200 "misc"
@@ -60,21 +130,5 @@ BOARD_OVERLAY_MINIFICATION_LIMIT := 2
 #mmcblk0p28: 014bfe00 00000200 "devlog"
 #mmcblk0p29: 00040000 00000200 "pdata"
 
-TARGET_USERIMAGES_USE_EXT4 := true
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 585101312
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 1232072704
-BOARD_BOOTIMAGE_PARTITION_SIZE := 4194304
-BOARD_FLASH_BLOCK_SIZE := 262144
+##########################################################################################################
 
-TARGET_RELEASETOOLS_EXTENSIONS := device/htc/common
-TARGET_PREBUILT_KERNEL := device/htc/saga/prebuilt/kernel
-
-BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/mmcblk1p1
-BOARD_SDCARD_DEVICE_SECONDARY := /dev/block/mmcblk1
-BOARD_SDEXT_DEVICE := /dev/block/mmcblk1p2
-BOARD_USES_MMCUTILS := true
-BOARD_HAS_NO_MISC_PARTITION := true
-
-BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
